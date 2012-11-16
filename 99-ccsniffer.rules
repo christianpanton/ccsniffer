@@ -1,0 +1,2 @@
+ATTR{idVendor}=="0451", ATTR{idProduct}=="16ae", OWNER="root", GROUP="plugdev", MODE="0666"
+
