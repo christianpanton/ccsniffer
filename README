@@ -1,0 +1,8 @@
+Python module for Texas Instruments CC2531emk USB module
+
+Python-USB script to run the CC2531emk USB dongle under Linux 
+and use it as a IEEE 802.15.4 packet sniffer.
+
+Licence: GPL v3.0, see LICENSE
+
+Requires: pyusb >= 1.0
