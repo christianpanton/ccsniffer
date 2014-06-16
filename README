@@ -5,6 +5,6 @@ this module uses pyusb to talk to the USB dongle under
 Linux and Mac OS X, so you can use the dongle as a 
 IEEE 802.15.4 packet sniffer.
 
-Licence: GPL v3.0, see LICENSE
+License: GPL v3.0, see LICENSE
 
 Requires: pyusb >= 1.0
