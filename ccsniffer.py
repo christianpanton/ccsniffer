@@ -35,7 +35,8 @@ class CC2531:
 
     DEFAULT_CHANNEL = 0x0b # 11
 
-    DATA_EP = 0x83
+    DATA_EP_CC2531 = 0x83
+    DATA_EP_CC2530 = 0x82
     DATA_TIMEOUT = 2500
 
     DIR_OUT = 0x40
@@ -58,7 +59,13 @@ class CC2531:
         self.running = False
 
         try:
+            # Try CC2531
+            CC2531.DATA_EP = CC2531.DATA_EP_CC2531
             self.dev = usb.core.find(idVendor=0x0451, idProduct=0x16ae)
+            if self.dev is None:
+                # Try CC2530
+                CC2531.DATA_EP = CC2531.DATA_EP_CC2530
+                self.dev = usb.core.find(idVendor=0x11a0, idProduct=0xeb20)
         except usb.core.USBError:
             raise OSError("Permission denied, you need to add an udev rule for this device", errno=errno.EACCES)
     
@@ -69,7 +76,7 @@ class CC2531:
         self.dev.set_configuration()
 
         # get name from USB descriptor
-        self.name = usb.util.get_string(self.dev, 256, 2)
+        self.name = usb.util.get_string(self.dev, self.dev.iProduct)
 
         # get identity from Firmware command
         self.ident = self.dev.ctrl_transfer(CC2531.DIR_IN, CC2531.GET_IDENT, 0, 0, 256)
@@ -114,7 +121,7 @@ class CC2531:
     def recv(self):
 
         while self.running:
-            ret = self.dev.read(CC2531.DATA_EP, 4096, 0, CC2531.DATA_TIMEOUT)
+            ret = self.dev.read(CC2531.DATA_EP, 4096, CC2531.DATA_TIMEOUT)
             if ret[0] == 0:
                 packet = self.parse_packet(ret)
                 if packet:
