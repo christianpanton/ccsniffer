@@ -227,13 +227,13 @@ class Packet:
 if __name__ == "__main__":
 
     def callback(packet):
-        print "-"*30
-        print packet
-        print "-"*30
+        print("-"*30)
+        print(packet)
+        print("-"*30)
 
     sniffer = CC2531(callback)
     
-    print sniffer
+    print(sniffer)
     sniffer.start()
     time.sleep(10)
     sniffer.stop()
